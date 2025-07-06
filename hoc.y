@@ -11,8 +11,8 @@
 // grammar rules and actions
 %%
 list:   // nothing
-        | list '/n'
-        | list expr '/n'   { printf("\t%.8g\n", $2); }
+        | list '\n'
+        | list expr '\n'   { printf("\t%.8g\n", $2); }
         ;
 expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         | expr '+' expr    { $$ = $1 + $3; }  // $1: 代表规则的第一部分，即 expr；$2: 代表规则的第二部分，即 '+'，and so on
@@ -23,4 +23,34 @@ expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         ;
 %%
 
+#include <stdio.h>
+#include <ctype.h>
+char *progname;
+int lineno = 1;
 
+int main(int argc, char *argv[])
+{
+    progname = argv[0];
+    yyparse(); // call yylex()
+    return 0;
+}
+
+// yylex return type of token, the value of token is stored in `yylval`
+int yylex()
+{
+    int c;
+    while ((c=getchar()) == ' ' || c == '\t')
+        ;
+    if (c == EOF) {
+        return 0;
+    }
+    if (c == '.' || isdigit(c)) {
+        ungetc(c, stdin);
+        scanf("%lf", &yylval);
+        return NUMBER;
+    }
+    if (c == '\n') {
+        lineno++;
+    }
+    return c;
+}
