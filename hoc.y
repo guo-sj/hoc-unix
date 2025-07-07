@@ -1,5 +1,10 @@
 %{
-    #define YYSTYPE double  // data type of yacc stack
+#include <stdio.h>
+#include <ctype.h>
+#define YYSTYPE double  // data type of yacc stack
+int yylex();
+void yyerror(char *s);
+void warning(char *s, char *t);
 %}
 
 // part2: yacc declarations: lexical tokens, grammar variables
@@ -23,17 +28,8 @@ expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         ;
 %%
 
-#include <stdio.h>
-#include <ctype.h>
 char *progname;
 int lineno = 1;
-
-int main(int argc, char *argv[])
-{
-    progname = argv[0];
-    yyparse(); // call yylex()
-    return 0;
-}
 
 // yylex return type of token, the value of token is stored in `yylval`
 int yylex()
@@ -53,4 +49,26 @@ int yylex()
         lineno++;
     }
     return c;
+}
+
+// 如果解析错误，yyparse 会调用 yyerror
+void yyerror(char *s)
+{
+   warning(s, (char *)0);
+}
+
+void warning(char *s, char *t)
+{
+    fprintf(stderr, "%s: %s", progname, s);
+    if (t) {
+        fprintf(stderr, " %s", t);
+    }
+    fprintf(stderr, " near line %d\n", lineno);
+}
+
+int main(int argc, char *argv[])
+{
+    progname = argv[0];
+    yyparse(); // call yylex()
+    return 0;
 }
