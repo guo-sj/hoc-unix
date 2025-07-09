@@ -12,6 +12,7 @@ void warning(char *s, char *t);
 %token  NUMBER
 %left '+' '-'  // left associative, same precedence
 %left '*' '/'  // left assoc., higher precedence
+%left UNARYMINES UNARYPLUS // unary minus
 
 // grammar rules and actions
 %%
@@ -20,6 +21,8 @@ list:   // nothing
         | list expr '\n'   { printf("\t%.8g\n", $2); }
         ;
 expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
+        | '+' expr %prec UNARYPLUS  { $$ = $2; } // 和 UNARYPLUS 一样的优先级
+        | '-' expr %prec UNARYMINES  { $$ = -$2; } // 和 UNARYMINES 一样的优先级
         | expr '+' expr    { $$ = $1 + $3; }  // $1: 代表规则的第一部分，即 expr；$2: 代表规则的第二部分，即 '+'，and so on
         | expr '-' expr    { $$ = $1 - $3; }
         | expr '*' expr    { $$ = $1 * $3; }

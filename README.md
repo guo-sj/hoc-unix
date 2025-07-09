@@ -5,7 +5,11 @@
 
 目的是了解如何使用 yacc，make 等工具在 UNIX 编程环境中写一个 non-trivial 程序 -- 一个
 编程语言的 Interpreter。程序分 6 步：
-1. 一个支持四则运算的计算器。支持 +，-，*，/ 和 `()`；支持符点数运算
+1. 一个支持四则运算的计算器。支持 +，-，\*，/ 和 `()`；支持符点数运算
+
+Exercise 8-1. Examine the structure of the y.tab.c file. (It's about 300 lines long for hoc1)
+Anwser: 事实上，使用 `bison` 生成的 `hoc.tab.c` 有 1611 行。
+
 2. 支持变量 a-z，以及单目运算符`-`
 3. 支持任意长度的变量名，实现内置函数 `sin`，`exp` 等，支持常量 `PI` 和幂次运算符
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）
