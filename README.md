@@ -10,6 +10,9 @@
 Exercise 8-1. Examine the structure of the y.tab.c file. (It's about 300 lines long for hoc1)
 Anwser: 事实上，使用 `bison` 生成的 `hoc.tab.c` 有 1611 行。
 
+Exercise 8-2. Add the operators % (modulus or remainder) and unary + to hoc1. Suggestion: loot at frexp(3).
+
+
 2. 支持变量 a-z，以及单目运算符`-`
 3. 支持任意长度的变量名，实现内置函数 `sin`，`exp` 等，支持常量 `PI` 和幂次运算符
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）

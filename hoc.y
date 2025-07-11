@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <ctype.h>
+#include <math.h>
 #define YYSTYPE double  // data type of yacc stack
 int yylex();
 void yyerror(char *s);
@@ -11,7 +12,8 @@ void warning(char *s, char *t);
 // precedence and associativity information
 %token  NUMBER
 %left '+' '-'  // left associative, same precedence
-%left '*' '/'  // left assoc., higher precedence
+%left '*' '/'  // left associative, higher precedence
+%left '%'
 %left UNARYMINES UNARYPLUS // unary minus
 
 // grammar rules and actions
@@ -27,6 +29,7 @@ expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         | expr '-' expr    { $$ = $1 - $3; }
         | expr '*' expr    { $$ = $1 * $3; }
         | expr '/' expr    { $$ = $1 / $3; }
+        | expr '%' expr    { $$ = fmod($1, $3); }
         | '(' expr ')'     { $$ = $2; }
         ;
 %%
