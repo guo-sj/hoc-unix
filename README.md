@@ -23,18 +23,7 @@ Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/3bbd3c4ffaa
 
 Exercise 8-4. Modify *hoc* so that a semicolon can be used as an expression terminator equivalent to a newline.
 
-Answer: 我这个也不会。如果 `;` 要等价于 `\n`，那是否需要输出呢？肯定不用，应该是它要实现：
-```
-a = 3; b = 4; a + b\n
-```
-等价于:
-```
-a = 3
-b = 4
-a + b\n
-```
-
-那这个怎么实现呢？
+Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/a9754e7c633c3c07c35a8cc8573b276cf6875e10)
 
 3. 支持任意长度的变量名，实现内置函数 `sin`，`exp` 等，支持常量 `PI` 和幂次运算符
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）
