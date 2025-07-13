@@ -35,6 +35,7 @@ jmp_buf begin; // 设置恢复状态
 %%
 list:   // nothing
         | list '\n'
+        | list expr ';'
         | list expr '\n'   { printf("\t%.8g\n", mem['p'-'a']=$2); }
         ;
 expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;

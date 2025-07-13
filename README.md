@@ -8,12 +8,34 @@
 1. 一个支持四则运算的计算器。支持 +，-，\*，/ 和 `()`；支持符点数运算
 
 Exercise 8-1. Examine the structure of the y.tab.c file. (It's about 300 lines long for hoc1)
+
 Anwser: 事实上，使用 `bison` 生成的 `hoc.tab.c` 有 1611 行。
 
 Exercise 8-2. Add the operators % (modulus or remainder) and unary + to hoc1. Suggestion: loot at frexp(3).
-Answer: [this commit](https://github.com/guo-sj/hoc-unix/commit/d3416b36fa9f9324f40562255298930cbece7f3d)
+
+Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/d3416b36fa9f9324f40562255298930cbece7f3d)
 
 2. 支持变量 a-z，以及单目运算符`-`
+
+Exercise 8-3. Add a facility for remembering the most recent value computed, so that it does not have to be retyped in a sequence of related computations. One solution is to make it one of the variables, for instance 'p' for previous.
+
+Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/3bbd3c4ffaa7bae8c0262f7146cfdccee58079ca)
+
+Exercise 8-4. Modify *hoc* so that a semicolon can be used as an expression terminator equivalent to a newline.
+
+Answer: 我这个也不会。如果 `;` 要等价于 `\n`，那是否需要输出呢？肯定不用，应该是它要实现：
+```
+a = 3; b = 4; a + b\n
+```
+等价于:
+```
+a = 3
+b = 4
+a + b\n
+```
+
+那这个怎么实现呢？
+
 3. 支持任意长度的变量名，实现内置函数 `sin`，`exp` 等，支持常量 `PI` 和幂次运算符
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）
 5. 增加控制流 `if-else` 和 `while`，支持 `{}`，`>`，`<=` 等
