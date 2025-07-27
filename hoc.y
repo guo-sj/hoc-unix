@@ -41,7 +41,9 @@ list:   // nothing
         | list asgn '\n'
         | list expr ';'
         | list expr '\n'   { printf("\t%.8g\n", mem['p'-'a']=$2); }
-        | list error '\n'  { yyerrork; }
+        | list error '\n'  { yyerrork; } /* 这个是个宏定义 */
+        ;
+asgn:     VAR '=' expr { $$ = $1->u.val = $3; $1->type = VAR; }
         ;
 expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         | VAR              { $$ = mem[$1]; }
