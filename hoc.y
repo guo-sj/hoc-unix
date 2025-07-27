@@ -4,6 +4,7 @@
 #include <math.h>
 #include <signal.h>
 #include <setjmp.h>
+#include "hoc.h"
 
 // function declaration
 int yylex();
@@ -20,23 +21,27 @@ jmp_buf begin; // 设置恢复状态
 // precedence and associativity information
 %union {
     double val; // actual value
-    int index; // index into mem[]
+    Symbol *sym; // symbol table pointer
 }
 %token <val> NUMBER // terminal token
-%token <index> VAR
-%type <val> expr // non-terminal token
+%token <sym> VAR BLTIN UNDEF
+%type <val> expr asgn // non-terminal token
 
+%right '='
 %left '+' '-'  // left associative, same precedence
 %left '*' '/'  // left associative, higher precedence
 %left '%'
 %left UNARYMINES UNARYPLUS // unary minus
+%right '^' /* exponentiation */
 
 // grammar rules and actions
 %%
 list:   // nothing
         | list '\n'
+        | list asgn '\n'
         | list expr ';'
         | list expr '\n'   { printf("\t%.8g\n", mem['p'-'a']=$2); }
+        | list error '\n'  { yyerrork; }
         ;
 expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
         | VAR              { $$ = mem[$1]; }

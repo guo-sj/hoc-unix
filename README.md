@@ -26,6 +26,14 @@ Exercise 8-4. Modify *hoc* so that a semicolon can be used as an expression term
 Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/a9754e7c633c3c07c35a8cc8573b276cf6875e10)
 
 3. 支持任意长度的变量名，实现内置函数 `sin`，`exp` 等，支持常量 `PI` 和幂次运算符
+
+到这一步就有 5 个文件：
+- hoc.y: Grammar, *main*, *yylex*
+- hoc.h: Global data structures for inclusion
+- symbol.c: Symbol table routines: *lookup*, *install*
+- init.c: Built-ins and constants; *init*
+- math.c: Interfaces to math routines: *Sqrt*, *Log*, etc.
+
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）
 5. 增加控制流 `if-else` 和 `while`，支持 `{}`，`>`，`<=` 等
 6. 支持带参数的函数调用
