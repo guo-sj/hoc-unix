@@ -45,9 +45,12 @@ list:   // nothing
         ;
 asgn:     VAR '=' expr { $$ = $1->u.val = $3; $1->type = VAR; }
         ;
-expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
-        | VAR              { $$ = mem[$1]; }
-        | VAR '=' expr     { $$ = mem[$1] = $3; } // note that '=' is right associative
+expr:   NUMBER
+        | VAR              { if ($1->type == UNDEF)
+                                 execerror("undefined variable", $1->name);
+                             $$ = $1->u.val; }
+        | asgn
+        | BLTIN '(' expr ')' { $$ = (*($1->u.ptr))($3); }
         | expr '+' expr    { $$ = $1 + $3; }  // $1: 代表规则的第一部分，即 expr；$2: 代表规则的第二部分，即 '+'，and so on
         | expr '-' expr    { $$ = $1 - $3; }
         | expr '*' expr    { $$ = $1 * $3; }
@@ -56,6 +59,7 @@ expr:   NUMBER             { $$ = $1; }  // $$: 整个规则的返回值;
                     execerror("division by zero", "");
                 }
                 $$ = $1 / $3; }
+        | expr '^' expr { $$ = Pow($1, $3); }
         | expr '%' expr    { $$ = fmod($1, $3); }
         | '(' expr ')'     { $$ = $2; }
         | '+' expr %prec UNARYPLUS  { $$ = $2; } // 和 UNARYPLUS 一样的优先级
