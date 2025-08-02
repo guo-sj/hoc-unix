@@ -3,9 +3,11 @@ typedef struct Symbol { /* symbol table entry */
     short type; /* VAR, BLTIN, UNDEF */
     union {
         double val; /* if VAR */
-        double (*ptr)(); /* if BLTIN */
+        double (*ptr)(double); /* if BLTIN */
     } u;
     struct Symbol *next; /* to link to another */
 } Symbol;
 Symbol *install(char *s, int t, double d);
 Symbol *lookup(char *s);
+void init();
+void execerror(char *s, char *t);

@@ -21,10 +21,10 @@ static struct {
     "sin", sin,
     "cos", cos,
     "atan", atan,
-    "log", log,
-    "log10", log10,
-    "exp", exp,
-    "sqrt", sqrt,
+    "log", Log, /* checks arguments */
+    "log10", Log10, /* checks arguments */
+    "exp", Exp, /* checks arguments */
+    "sqrt", Sqrt, /* checks arguments */
     // "int", integer, /* 不清楚对应 math.h 的哪个函数 */
     "abs", fabs,
     0, 0,

@@ -11,9 +11,7 @@ int yylex();
 void yyerror(char *s);
 void warning(char *s, char *t);
 void fpecatch();
-void execerror(char *s, char *t);
 
-double mem[26] = {0};
 jmp_buf begin; // 设置恢复状态
 %}
 
@@ -40,8 +38,8 @@ list:   // nothing
         | list '\n'
         | list asgn '\n'
         | list expr ';'
-        | list expr '\n'   { printf("\t%.8g\n", mem['p'-'a']=$2); }
-        | list error '\n'  { yyerrork; } /* 这个是个宏定义 */
+        | list expr '\n'   { printf("\t%.8g\n", $2); }
+        | list error '\n'  { yyerrork; } /* yyerrork 这个是个宏定义 */
         ;
 asgn:     VAR '=' expr { $$ = $1->u.val = $3; $1->type = VAR; }
         ;
@@ -84,9 +82,19 @@ int yylex()
         scanf("%lf", &yylval.val);
         return NUMBER;
     }
-    if (islower(c)) {
-        yylval.index = c - 'a';
-        return VAR;
+    if (isalpha(c)) {
+        Symbol *s;
+        char sbuf[100], *p = sbuf;
+        do {
+            *p++ = c;
+        } while ((c=getchar()) != EOF && isalnum(c));
+        ungetc(c, stdin);
+        *p = '\0';
+        if ((s=lookup(sbuf)) == 0) {
+            s = install(sbuf, UNDEF, 0.0);
+        }
+        yylval.sym = s;
+        return s->type == UNDEF ? VAR : s->type;
     }
     if (c == '\n') {
         lineno++;
@@ -123,6 +131,7 @@ void fpecatch()
 int main(int argc, char *argv[])
 {
     progname = argv[0];
+    init();
     setjmp(begin);
     signal(SIGFPE, fpecatch);
     yyparse(); // call yylex()
