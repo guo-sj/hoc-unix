@@ -1,12 +1,19 @@
+OBJS = init.o math.o symbol.o hoc.tab.o
+C_FILES = init.c math.c symbol.c
 TARGET = hoc
-SOURCE = hoc.y
-MID_FILE = hoc.c
-BISON = bison
-CC = gcc
+MID_C_FILE = hoc.tab.c
+MID_H_FILE = hoc.tab.h
+MID_FILES = $(MID_C_FILE) $(MID_H_FILE)
+BISON_FLAGS = -d  # force creation of hoc.tab.h
 
-$(TARGET):	$(SOURCE)
-	$(BISON) -o $(MID_FILE) $(SOURCE)
-	$(CC) $(MID_FILE) -o $(TARGET)
+$(TARGET): $(OBJS)
+	cc $(OBJS) -lm -o $(TARGET)
+
+$(OBJS): $(C_FILES) $(MID_C_FILE) $(MID_H_FILE)
+	cc -c $(C_FILES) $(MID_C_FILE)
+
+$(MID_FILES): hoc.y
+	bison $(BISON_FLAGS) hoc.y
 
 clean:
-	rm -rf $(TARGET) $(MID_FILE) *~ .*~
+	rm -rf $(TARGET) $(OBJS) $(MID_FILES) *~ .*~

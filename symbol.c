@@ -1,5 +1,7 @@
 #include "hoc.h"
-#include "y.tab.h"
+#include "hoc.tab.h"
+#include <stdlib.h>
+#include <string.h>
 
 static Symbol *symlist = 0; /* symbol table: linked list */
 

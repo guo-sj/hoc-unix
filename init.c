@@ -1,5 +1,5 @@
 #include "hoc.h"
-#include "y.tab.h"
+#include "hoc.tab.h"
 #include <math.h>
 
 static struct {
@@ -37,7 +37,7 @@ void init() /* install constants and build-ins in table */
     for (i = 0; consts[i].name; i++) {
         install(consts[i].name, VAR, consts[i].cval);
     }
-    for (i = 0; builtins.name; i++) {
+    for (i = 0; builtins[i].name; i++) {
         s = install(builtins[i].name, BLTIN, 0.0);
         s->u.ptr = builtins[i].func;
     }

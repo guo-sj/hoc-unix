@@ -39,7 +39,7 @@ list:   // nothing
         | list asgn '\n'
         | list expr ';'
         | list expr '\n'   { printf("\t%.8g\n", $2); }
-        | list error '\n'  { yyerrork; } /* yyerrork 这个是个宏定义 */
+        | list error '\n'  { yyerrok; } /* yyerrok 这个是个宏定义 */
         ;
 asgn:     VAR '=' expr { $$ = $1->u.val = $3; $1->type = VAR; }
         ;

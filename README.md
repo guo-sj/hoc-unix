@@ -34,6 +34,28 @@ Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/a9754e7c633
 - init.c: Built-ins and constants; *init*
 - math.c: Interfaces to math routines: *Sqrt*, *Log*, etc.
 
+Exercise 8-5. As `hoc3` stands, it's legal to say
+```
+    PI = 3
+```
+Is this a good idea? How would you change `hoc3` to prohibit assignment to "contants"?
+
+Answer:
+
+Exercise 8-6. Add the built-in function `atan2(y, x)`, which returns the angle whose tangent is y/x. Add the built-in `rand()`,
+ which returns a floating point random variable uniformly distributed on the interval (0, 1). How do you have to change the grammar
+ to allow for built-ins with different numbers of arguments?
+
+Answer:
+
+Exercise 8-7. How would you add a facility to execute commands from with `hoc`, similar to the `!` feature of other UNIX program?
+
+Answer:
+
+Exercise 8-8. Revise the code in math.c to use a table instead of the sed of essentially identical functions that we presented.
+
+Answer:
+
 4. 不新增功能，为每行语句生成代码并 2 次解析（中间代码生成）
 5. 增加控制流 `if-else` 和 `while`，支持 `{}`，`>`，`<=` 等
 6. 支持带参数的函数调用
