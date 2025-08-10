@@ -40,7 +40,7 @@ Exercise 8-5. As `hoc3` stands, it's legal to say
 ```
 Is this a good idea? How would you change `hoc3` to prohibit assignment to "contants"?
 
-Answer:
+Answer: see [this commit.](https://github.com/guo-sj/hoc-unix/commit/ddd34ccec471d42f81537af2ffe4c85d27c3322d)
 
 Exercise 8-6. Add the built-in function `atan2(y, x)`, which returns the angle whose tangent is y/x. Add the built-in `rand()`,
  which returns a floating point random variable uniformly distributed on the interval (0, 1). How do you have to change the grammar
