@@ -22,7 +22,7 @@ jmp_buf begin; // 设置恢复状态
     Symbol *sym; // symbol table pointer
 }
 %token <val> NUMBER // terminal token
-%token <sym> VAR BLTIN UNDEF
+%token <sym> VAR BLTIN UNDEF CONST
 %type <val> expr asgn // non-terminal token
 
 %right '='
@@ -44,6 +44,7 @@ list:   // nothing
 asgn:     VAR '=' expr { $$ = $1->u.val = $3; $1->type = VAR; }
         ;
 expr:   NUMBER
+        | CONST            { $$ = $1->u.val; }
         | VAR              { if ($1->type == UNDEF)
                                  execerror("undefined variable", $1->name);
                              $$ = $1->u.val; }
